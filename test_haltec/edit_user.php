@@ -1,24 +1,24 @@
 <?php
-include 'conn.php';
+include 'conn.php'; //ngambil koneksi
 
-$userId = $_GET['id'] ?? '';
-$user_data = mysqli_query($conn, "SELECT * FROM user WHERE id = $userId");
+$userId = $_GET['id'] ?? ''; //ngambil user id dari url link dengan method get
+$user_data = mysqli_query($conn, "SELECT * FROM user WHERE id = $userId"); //ngambil data user seusai userid
 $user_data = mysqli_fetch_array($user_data);
-$roles_data = mysqli_query($conn, "SELECT roles FROM user_roles WHERE id_user = $userId");
+$roles_data = mysqli_query($conn, "SELECT roles FROM user_roles WHERE id_user = $userId"); //ngambil data roles sesuai user id
 $roles_data = mysqli_fetch_array($roles_data);
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') { //pengkondisian jika form di submit
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
     $roles = $_POST['roles'] ?? '';
 
-    $updateUserQuery = "UPDATE user SET username='$username', password='$password' WHERE id=$userId";
+    $updateUserQuery = "UPDATE user SET username='$username', password='$password' WHERE id=$userId"; //query update tabel user
     if (mysqli_query($conn, $updateUserQuery)) {
-        $updateRoleQuery = "UPDATE user_roles SET roles='$roles' WHERE id_user = $userId";
+        $updateRoleQuery = "UPDATE user_roles SET roles='$roles' WHERE id_user = $userId"; //query update tabel user_roles
         if (mysqli_query($conn, $updateRoleQuery)) {
             header("Location: dashboard.php?roles=admin");
             exit();
         } else {
-            header("Location: edit_user.php?id=$userId");
+            header("Location: edit_user.php?id=$userId"); //rollback kalo error query
             exit();
         }
     } else {
@@ -49,4 +49,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="submit" value="Edit User">
     </form>
 </body>
+
 </html>
