@@ -1,25 +1,25 @@
 <?php
-include 'conn.php';
+include 'conn.php'; //ngambil koneksi
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') { //ketika form mengirim data dengan method post
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
     $roles = $_POST['roles'] ?? '';
 
-    $insertUserQuery = "INSERT INTO user (username, password) VALUES ('$username', '$password')";
+    $insertUserQuery = "INSERT INTO user (username, password) VALUES ('$username', '$password')"; //query insert ke database tabel user
     if (mysqli_query($conn, $insertUserQuery)) {
-        $userId = mysqli_insert_id($conn);
+        $userId = mysqli_insert_id($conn); //ngambil user id untuk dipake ke inser user_roles
 
-        $insertRoleQuery = "INSERT INTO user_roles (id_user, roles) VALUES ($userId, '$roles')";
+        $insertRoleQuery = "INSERT INTO user_roles (id_user, roles) VALUES ($userId, '$roles')"; //query insert ke database tabel user_roles
         if (mysqli_query($conn, $insertRoleQuery)) {
-            header("Location: dashboard.php?roles=admin");
+            header("Location: dashboard.php?roles=admin"); //mengarahkan ke halaman dashboard
             exit();
         } else {
             header("Location: create_user.php");
             exit();
         }
     } else {
-        echo "Error inserting user: " . mysqli_error($conn);
+        echo "Error inserting user: " . mysqli_error($conn); //error handling
     }
 }
 ?>
@@ -46,4 +46,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="submit" value="Create User">
     </form>
 </body>
+
 </html>
