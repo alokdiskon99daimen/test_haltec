@@ -1,16 +1,16 @@
 <?php
-include 'conn.php';
-session_start();
-$roles = $_GET['roles'] ?? '';
+include 'conn.php'; //ngambil koneksi db
+session_start(); //start session agar bisa make $_session
+$roles = $_GET['roles'] ?? ''; //ngambil data roles dari link url dengan method get
 
-if(isset($_SESSION['username'])) {
+if(isset($_SESSION['username'])) { //cek kondisi session username, kalo gada balik login lagi
     $username = $_SESSION['username'];
 } else {
     header("Location: login.php");
     exit();
 }
 
-if($roles != 'admin' && $roles != 'user') {
+if($roles != 'admin' && $roles != 'user') { //cek kondsi roles, kalo gaada, kembali ke login
     header("Location: login.php");
     exit();
 }
@@ -39,7 +39,7 @@ if($roles != 'admin' && $roles != 'user') {
             <th></th>
         </tr>
         <?php
-        $users = mysqli_query($conn, "SELECT * FROM user ORDER BY id ASC");
+        $users = mysqli_query($conn, "SELECT * FROM user ORDER BY id ASC"); //ngambil data user lalu disajikan dalam bentuk tabel
         foreach ($users as $user_data) {
         ?>
         <tr>
@@ -48,7 +48,7 @@ if($roles != 'admin' && $roles != 'user') {
             <td><?= $user_data['password']; ?></td>
 
             <?php 
-            $roles = mysqli_query($conn, "SELECT roles FROM user_roles WHERE id_user = " . $user_data['id']);
+            $roles = mysqli_query($conn, "SELECT roles FROM user_roles WHERE id_user = " . $user_data['id']); //ngambil data roles dari tabel user_roles dengan relasi id_user
             $roles = mysqli_fetch_array($roles);
             ?>
             <td><?= $roles['roles']; ?></td>
@@ -66,4 +66,5 @@ if($roles != 'admin' && $roles != 'user') {
 </body>
 
 </html>
+
 
