@@ -30,6 +30,7 @@ if($roles != 'admin' && $roles != 'user') {
     <table border="1" style="width:100%; text-align:center">
         <?php if($roles == 'admin') : ?>
         <h1>ADMIN</h1>
+        <a href="create_user.php">create</a>
         <tr>
             <th>id</th>
             <th>username</th>
@@ -37,7 +38,6 @@ if($roles != 'admin' && $roles != 'user') {
             <th>roles</th>
             <th></th>
         </tr>
-        <a href="create_user.php">create</a>
         <?php
         $users = mysqli_query($conn, "SELECT * FROM user ORDER BY id ASC");
         foreach ($users as $user_data) {
@@ -66,3 +66,4 @@ if($roles != 'admin' && $roles != 'user') {
 </body>
 
 </html>
+
