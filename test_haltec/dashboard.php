@@ -28,6 +28,8 @@ if($roles != 'admin' && $roles != 'user') {
     Welcome, <?= $roles ?> <?= $username ?>!<br><br>
     <br>
     <table border="1" style="width:100%; text-align:center">
+        <?php if($roles == 'admin') : ?>
+        <h1>ADMIN</h1>
         <tr>
             <th>id</th>
             <th>username</th>
@@ -35,8 +37,6 @@ if($roles != 'admin' && $roles != 'user') {
             <th>roles</th>
             <th></th>
         </tr>
-        <?php if($roles == 'admin') : ?>
-        <h1>ADMIN</h1>
         <a href="create_user.php">create</a>
         <?php
         $users = mysqli_query($conn, "SELECT * FROM user ORDER BY id ASC");
@@ -64,4 +64,5 @@ if($roles != 'admin' && $roles != 'user') {
     <h1>USER</h1>
     <?php endif ?>
 </body>
+
 </html>
